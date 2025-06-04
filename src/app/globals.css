@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=National+Park:wght@200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=National+Park:wght@200..800&display=swap');
+@import "tailwindcss";
+
+
+
+
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  /*Colores de fondo*/
+  --color-bgLigth: #F1F5C1;
+  --color-bgMedium: #737048;
+  --color-bgDark: #593D2D;
+
+  /*Fuentes*/
+  --font-primary: "National Park", sans-serif;
+  --font-secondary: "Montserrat", sans-serif;
+
+  /*Colores de texto*/
+  --color-tLigth: #E1F5E7;
+  --color-tMedium: #4F411A;
+  --color-tDark: #421808;
+
+  /*Colores de botones*/
+  --color-bPrimary: #6A7324;
+  --color-bHPrimary: #98A633;
+  --color-bTPrimary: #ffffff;
+
+
+  --color-bHSecondary: #F0BF75;
+  --color-bSecondary: #BF9960;
+  --color-bTSecondary: #ffffff;
+
+  --color-bHTertiary: #5F647D;
+  --color-bTertiary: #383B4A;
+  --color-bTTertiary: #ffffff;
+}
+
+
+@layer components{
+  .centerLigthTitle{
+    @apply font-primary text-tLigth text-4xl md:text-5xl font-bold mb-6 text-center;
+  }
+
+  .leftLigthTitle{
+    @apply font-primary text-tLigth text-4xl md:text-5xl font-bold mb-6 text-left;
+  }
+
+  .centerMediumTitle{
+    @apply font-primary text-tMedium text-4xl md:text-5xl font-bold mb-6 text-center;
+  }
+
+  .leftMediumTitle{
+    @apply font-primary text-tMedium text-4xl md:text-5xl font-bold mb-6 text-left;
+  }
+
+  .centerDarkTitle{
+    @apply font-primary text-tDark text-4xl md:text-5xl font-bold mb-6 text-center;
+  }
+
+  .leftDarkTitle{
+    @apply font-primary text-tDark text-4xl md:text-5xl font-bold mb-6 text-left;
+  }
+
+  .centerLigthSubTitle{
+    @apply font-primary text-tLigth text-2xl font-bold text-center mb-6
+  }
+
+  .leftLigthSubTitle{
+    @apply font-primary text-tLigth text-2xl font-bold text-left mb-6
+  }
+
+  .centerMediumSubTitle{
+    @apply font-primary text-tMedium text-2xl font-bold text-center mb-6
+  }
+
+  .leftMediumSubTitle{
+    @apply font-primary text-tMedium text-2xl font-bold text-left mb-6
+  }
+
+  .centerDarkSubTitle{
+    @apply font-primary text-tDark text-2xl font-bold text-center mb-6
+  }
+
+  .leftDarkSubTitle{
+    @apply font-primary text-tDark text-2xl font-bold text-left mb-6
+  }
+
+  .centerLigthParagraph{
+    @apply font-secondary text-tLigth text-lg md:text-xl mb-10 text-center;
+  }
+
+  .leftLigthParagraph{
+    @apply font-secondary text-tLigth text-lg md:text-xl mb-10 text-left;
+  }
+
+  .centerMediumParagraph{
+    @apply font-secondary text-tMedium text-lg md:text-xl mb-10 text-center;
+  }
+
+  .leftMediumParagraph{
+    @apply font-secondary text-tMedium text-lg md:text-xl mb-10 text-left;
+  }
+
+  .centerDarkParagraph{
+    @apply font-secondary text-tDark text-lg md:text-xl mb-10 text-center;
+  }
+
+  .leftDarkParagraph{
+    @apply font-secondary text-tDark text-lg md:text-xl mb-10 text-left;
+  }
+
+  .buttonPrimary{
+    @apply px-6 py-2 bg-bPrimary text-bTPrimary font-secondary font-semibold rounded-lg shadow-md hover:bg-bHPrimary transition;
+  }
+
+  .buttonSecondary{
+    @apply px-6 py-2 bg-bSecondary text-bTSecondary font-secondary font-semibold rounded-lg shadow-md hover:bg-bHSecondary transition
+  }
+
+  .buttonTertiary{
+    @apply px-6 py-2 bg-bTertiary text-bTTertiary font-secondary font-semibold rounded-lg shadow-md hover:bg-bHTertiary transition
+  }
+
+  .textInput{
+    @apply w-full px-4 py-2 border border-bgMedium rounded-lg focus:outline-none focus:ring-2 focus:ring-bgDark
+  }
+
+  .floatingLabel{
+    @apply absolute -top-3 left-3 bg-bgLigth px-2 font-secondary text-sm text-tMedium
+  }
+
+  .footer{
+    @apply w-full bg-bgDark text-white py-4 mt-auto text-center text-sm
+  }
+
+  .card{
+    @apply bg-bgLigth rounded-xl shadow-md hover:border-2 transition overflow-hidden
+  }
+}
+
+.custom-bg {
+  background-image: url('../../public/image1.jpg');
+}
