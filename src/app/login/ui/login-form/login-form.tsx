@@ -2,11 +2,38 @@
 import { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
+import api from '../../../lib/axios'
+import { AxiosError } from 'axios';
 
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [error, setError] = useState('')
+    const router = useRouter()
+
+
+    const handleLogin = async (e: React.FormEvent) => {
+      e.preventDefault()
+      setError('')
+  
+      try {
+        const res = await api.post('/login', { email, pass })
+  
+        // Suponiendo que el token viene en res.data.token
+        localStorage.setItem('token', res.data.token)
+
+  
+        router.push('/home')
+      } catch (error) {
+    if (error instanceof AxiosError) {
+        setError(error.response?.data?.message || 'Error al iniciar sesión');
+    } else {
+        setError('Error al iniciar sesión');
+    }
+}
+    }
 
     const togglePassword = () => {
         setShowPassword((prev) => !prev);
@@ -17,7 +44,8 @@ export default function LoginForm() {
         <div className="w-screen h-screen bg-bgMedium flex items-center justify-center">
         <div className="w-full max-w-sm bg-bgLigth rounded-xl p-6 shadow-lg">
           <h1 className="centerMediumSubTitle">Iniciar sesion</h1>
-    
+
+          <form onSubmit={handleLogin}>
           {/* Email Input */}
           <div className="mb-6 relative">
             <label
@@ -63,21 +91,24 @@ export default function LoginForm() {
     
           {/* Botón centrado */}
           <div className="flex justify-center">
-            <Link
-                href="/pages/home"
-                className="buttonPrimary"
+            <button
+              type="submit"
+              className="buttonPrimary"
             >
-                Iniciar Sesión
-            </Link>
+              Iniciar sesión
+            </button>
           </div>
+          {/* Mensaje de error */}
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
           <p className="centerDarkParagraph mt-4">
             ¿No estás registrado?{' '}
             <Link href="/pages/register" className="text-blue-600 hover:underline">
             Registrarse
             </Link>
-         </p>  
-
+          </p>  
+          </form>
         </div>
       </div>
     );
-}
+} 

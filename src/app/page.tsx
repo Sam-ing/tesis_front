@@ -16,20 +16,20 @@ export default function LandingPage() {
       <div className="flex flex-col items-center gap-4">
 
         <div className="flex gap-4">
-          <Link href="/pages/login">
+          <Link href="/login">
             <button className="buttonPrimary">
               Iniciar sesión
             </button>
           </Link>
 
-          <Link href="/pages/register">
+          <Link href="/register">
             <button className="buttonSecondary">
               Registrarse
             </button>
           </Link>
         </div>
         <div >
-          <Link href="/pages/register">
+          <Link href="/register">
             <button className="buttonTertiary">
               Acerca de nosotros
             </button>

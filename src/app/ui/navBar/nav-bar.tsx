@@ -12,14 +12,14 @@ import { MdOutlineMarkUnreadChatAlt } from "react-icons/md";
 export default function Navbar() {
 
   const [open, setOpen] = useState(false)
-  const menuRef = useRef(null)
-  const [hasNewMessages, setHasNewMessages] = useState(true)
+  const menuRef = useRef<HTMLButtonElement>(null);
+  const [hasNewMessages] = useState(true)
 
   // Cerrar el menú al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !(menuRef.current as any).contains(event.target)) {
-        setOpen(false)
+      if (menuRef.current && menuRef.current.contains(event.target as Node)) {
+        setOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -47,16 +47,16 @@ export default function Navbar() {
         <div className="flex items-center space-x-4 ml-auto">
         {/* Links de navegación */}
         <div className="space-x-4">
-          <Link href="/pages/register" className="text-tLigth hover:text-blue-500">
+          <Link href="/register" className="text-tLigth hover:text-blue-500">
             Registro
           </Link>
-          <Link href="/pages/login" className="text-tLigth hover:text-blue-500">
+          <Link href="/login" className="text-tLigth hover:text-blue-500">
             Iniciar sesión
           </Link>
         </div>
 
         {/* Icono de mensajería */}
-<Link href="/pages/chats" className="relative">
+<Link href="/chats" className="relative">
   <button className="p-2 rounded-full hover:bg-gray-100 transition">
     {hasNewMessages ? (
       <MdOutlineMarkUnreadChatAlt className="text-tLigth" size={22} />

@@ -1,5 +1,11 @@
 import { notFound } from 'next/navigation';
 
+// Tipo explícito para props
+type Props = {
+  params: Promise<{ placeId: string }>;
+};
+
+
 const productos = [
   {
     id: 1,
@@ -21,8 +27,11 @@ const productos = [
   },
 ];
 
-export default function ProductoPage({ params }: { params: { placeId: string } }) {
-  const producto = productos.find((p) => p.id === parseInt(params.placeId));
+// Debes exportar como `default async function` aunque no uses await
+export default async function ProductoPage({ params }: Props) {
+  const resolvedParams = await params;
+
+  const producto = productos.find((p) => p.id === Number(resolvedParams.placeId));
 
   if (!producto) return notFound();
 
@@ -40,3 +49,5 @@ export default function ProductoPage({ params }: { params: { placeId: string } }
     </main>
   );
 }
+
+

@@ -1,5 +1,5 @@
 'use client';
-import '../../globals.css';
+import '../globals.css'
 import Navbar from '@/app/ui/navBar/nav-bar';
 
 export default function RootLayout({

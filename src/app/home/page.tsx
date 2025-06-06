@@ -1,4 +1,3 @@
-// app/page.tsx
 'use client';
 
 import Link from 'next/link';
@@ -44,7 +43,7 @@ export default function HomePage() {
               <h2 className="leftDarkSubTitle">{item.title}</h2>
               <p className="leftMediumParagraph">{item.description}</p>
               <Link
-                href={`places/${item.id}`}
+                href={`/places/${item.id}`}
                 className="buttonSecondary"
               >
                 Ver más

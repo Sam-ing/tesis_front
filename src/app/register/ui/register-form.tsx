@@ -3,22 +3,26 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { FiChevronDown } from 'react-icons/fi';
+import api from '../../lib/axios';
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation'
 
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
-    nombre: '',
-    apellido: '',
+    name: '',
+    lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
     country: '',
     province: '',
     locality: '',
-    address: ''
+    address: '',
+    phoneNumber: ''
   });
 
-  const locationData = {
+  const locationData: Record<string, Record<string, string[]>> = {
     Argentina: {
       "Buenos Aires": ["La Plata", "Mar del Plata", "Bahía Blanca"],
       Córdoba: ["Córdoba Capital", "Villa María", "Río Cuarto"],
@@ -34,6 +38,8 @@ export default function RegisterForm() {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const router = useRouter()
+
 
   const handleCountryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCountry(e.target.value);
@@ -50,9 +56,6 @@ export default function RegisterForm() {
     setSelectedCity(e.target.value);
   };
 
-                                                                                                                                                               
-  
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -61,15 +64,37 @@ export default function RegisterForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert('Las contraseñas no coinciden');
-      return;
-    }
+  const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault()
 
-    console.log('Datos del usuario:', formData);
-  };
+  if (formData.password !== formData.confirmPassword) {
+    alert('Las contraseñas no coinciden')
+    return
+  }
+
+  try {
+    await api.post('/userProfile', {
+      firstName: formData.name,
+      lastname: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      address: formData.address,
+      phoneNumber: formData.phoneNumber
+    })
+
+    alert('Usuario registrado correctamente')
+
+    // Opcional: redirigir al login
+    router.push('/login')
+  } catch (err) {
+      if (err instanceof AxiosError) {
+        alert(`Error: ${err.response?.data?.message || 'Error al registrar usuario'}`);
+      }else {
+        alert('Error al registrar usuario');
+      }
+    }
+}
+
 
   const provinces = selectedCountry ? Object.keys(locationData[selectedCountry]) : [];
   const cities = selectedProvince ? locationData[selectedCountry][selectedProvince] : [];
@@ -94,7 +119,7 @@ export default function RegisterForm() {
             <input
               type="text"
               name="name"
-              value={formData.apellido}
+              value={formData.name}
               placeholder="Escribe tu nombre"
               onChange={handleChange}
               required
@@ -105,15 +130,15 @@ export default function RegisterForm() {
         {/* Apellido */}
         <div className="mb-6 relative">
             <label
-              htmlFor="lastname"
+              htmlFor="lastName"
               className="floatingLabel"
             >
               Apellido
             </label>
             <input
               type="text"
-              name="lastname"
-              value={formData.apellido}
+              name="lastName"
+              value={formData.lastName}
               placeholder="Escribe tu apellido"
               onChange={handleChange}
               required
@@ -164,7 +189,7 @@ export default function RegisterForm() {
         <div className="mb-6 relative">
           <label className="floatingLabel">Confirma tu contraseña</label>
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showConfirm ? 'text' : 'password'}
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
@@ -173,10 +198,10 @@ export default function RegisterForm() {
           />
           <button
             type="button"
-            onClick={() => setShowPassword((prev) => !prev)}
+            onClick={() => setShowConfirm((prev) => !prev)}
             className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600"
           >
-            {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+            {showConfirm ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
           </button>
         </div>
 
@@ -264,6 +289,24 @@ export default function RegisterForm() {
             />
       </div>
 
+      {/* Telefono */}
+      <div className="mb-6 relative">
+        <label
+            htmlFor="phoneNumber"
+            className="floatingLabel"
+        >
+            Número de Telefono
+        </label>
+          <input
+            type="text"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            placeholder="Escribe tu telefono aqui"
+            onChange={handleChange}
+            required
+            className="textInput"
+            />
+      </div>
 
       {/* Botón Registrarse*/}
       <div className='md:col-span-2 flex justify-center flex-col items-center'>

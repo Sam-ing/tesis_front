@@ -1,4 +1,5 @@
-import '../../globals.css';
+import '../globals.css';
+import Navbar from '@/app/ui/navBar/nav-bar';
 
 export default function RootLayout({
   children,
@@ -7,8 +8,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex-col min-h-screen">
-        <div className='flex-grow'>
+      <body className="min-h-screen w-screen bg-gray-100">
+        < Navbar />
+        <div>
           {children}
         </div>
       </body>

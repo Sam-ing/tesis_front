@@ -4,15 +4,21 @@
 import { useParams } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
 
+type Message = {
+  id: number
+  text: string
+  from: 'yo' | 'otro'
+}
+
 export default function ChatPage() {
   const { chatId } = useParams()
-  const [messages, setMessages] = useState<any[]>([])
+  const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState('')
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // Simular fetch de mensajes
-    const fetchedMessages = [
+    const fetchedMessages: Message[] = [
       { id: 1, text: 'Hola!', from: 'otro' },
       { id: 2, text: '¿Cómo estás?', from: 'yo' },
     ]
@@ -26,7 +32,7 @@ export default function ChatPage() {
   const handleSend = () => {
     if (!newMessage.trim()) return
 
-    const msg = { id: Date.now(), text: newMessage, from: 'yo' }
+    const msg : Message = { id: Date.now(), text: newMessage, from: 'yo' }
     setMessages(prev => [...prev, msg])
     setNewMessage('')
   }
