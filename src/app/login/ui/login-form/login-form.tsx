@@ -103,7 +103,7 @@ export default function LoginForm() {
 
           <p className="centerDarkParagraph mt-4">
             ¿No estás registrado?{' '}
-            <Link href="/pages/register" className="text-blue-600 hover:underline">
+            <Link href="/register" className="text-blue-600 hover:underline">
             Registrarse
             </Link>
           </p>  
