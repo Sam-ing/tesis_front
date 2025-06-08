@@ -1,11 +1,17 @@
 import axios from 'axios'
+import * as dotenv from 'dotenv';
+import * as path from 'path';
 
+dotenv.config({ path:  path.join(__dirname, '../../.env') });
+console.log(process.env.API_URL)
 const api = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: process.env.API_URL,
+    
 })
 
 
 api.interceptors.request.use((config) => {
+    
     const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
