@@ -12,33 +12,34 @@
   --foreground: #171717;
 }
 
+/* Paleta personalizada: blanco principal, verde claro secundario */
 @theme inline {
   /*Colores de fondo*/
-  --color-bgLigth: #F1F5C1;
-  --color-bgMedium: #737048;
-  --color-bgDark: #593D2D;
+  --color-bgLigth: #ffffff;      /* Blanco principal */
+  --color-bgMedium: #d1fae5;    /* Verde claro más oscuro */
+  --color-bgDark: #10b981;      /* Verde oscuro (tailwind emerald-500) */
 
   /*Fuentes*/
   --font-primary: "National Park", sans-serif;
   --font-secondary: "Montserrat", sans-serif;
 
   /*Colores de texto*/
-  --color-tLigth: #E1F5E7;
+  --color-tLigth: #10b981;      /* Verde oscuro */
   --color-tMedium: #4F411A;
-  --color-tDark: #421808;
+  --color-tDark: #171717;
 
   /*Colores de botones*/
-  --color-bPrimary: #6A7324;
-  --color-bHPrimary: #98A633;
-  --color-bTPrimary: #ffffff;
+  --color-bPrimary: #10b981;    /* Verde oscuro */
+  --color-bHPrimary: #059669;   /* Verde aún más oscuro al hover */
+  --color-bTPrimary: #ffffff;   /* Texto blanco */
 
 
-  --color-bHSecondary: #F0BF75;
-  --color-bSecondary: #BF9960;
-  --color-bTSecondary: #ffffff;
+  --color-bSecondary: #ffffff;  /* Botón secundario blanco */
+  --color-bHSecondary: #d1fae5; /* Hover secundario verde claro más oscuro */
+  --color-bTSecondary: #10b981; /* Texto verde oscuro */
 
-  --color-bHTertiary: #5F647D;
   --color-bTertiary: #383B4A;
+  --color-bHTertiary: #5F647D;
   --color-bTTertiary: #ffffff;
 }
 

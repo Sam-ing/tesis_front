@@ -3,8 +3,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { FiChevronDown } from 'react-icons/fi';
-import api from '../../lib/axios';
-import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation'
 
 
@@ -65,35 +63,39 @@ export default function RegisterForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault()
+    e.preventDefault();
 
-  if (formData.password !== formData.confirmPassword) {
-    alert('Las contraseñas no coinciden')
-    return
-  }
+    if (formData.password !== formData.confirmPassword) {
+      alert('Las contraseñas no coinciden');
+      return;
+    }
 
-  try {
-    await api.post('/userProfile', {
-      firstName: formData.name,
-      lastname: formData.lastName,
+    // Obtener usuarios existentes de localStorage
+    const users = JSON.parse(localStorage.getItem('mockUsers') || '[]');
+
+    // Verificar si el email ya está registrado
+    if (users.some((u: any) => u.email === formData.email)) {
+      alert('El email ya está registrado');
+      return;
+    }
+
+    // Guardar el nuevo usuario
+    users.push({
+      name: formData.name,
+      lastName: formData.lastName,
       email: formData.email,
       password: formData.password,
       address: formData.address,
-      phoneNumber: formData.phoneNumber
-    })
+      phoneNumber: formData.phoneNumber,
+      country: selectedCountry,
+      province: selectedProvince,
+      locality: selectedCity,
+    });
+    localStorage.setItem('mockUsers', JSON.stringify(users));
 
-    alert('Usuario registrado correctamente')
-
-    // Opcional: redirigir al login
-    router.push('/login')
-  } catch (err) {
-      if (err instanceof AxiosError) {
-        alert(`Error: ${err.response?.data?.message || 'Error al registrar usuario'}`);
-      }else {
-        alert('Error al registrar usuario');
-      }
-    }
-}
+    alert('Usuario registrado correctamente');
+    router.push('/login');
+  };
 
 
   const provinces = selectedCountry ? Object.keys(locationData[selectedCountry]) : [];

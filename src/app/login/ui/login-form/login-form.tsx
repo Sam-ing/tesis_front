@@ -3,44 +3,64 @@ import { useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
-import api from '../../../lib/axios'
-import { AxiosError } from 'axios';
+import Loader from '../../../lib/loader'
+
+type MockUser = {
+  email: string;
+  password: string;
+  // otros campos si los tienes
+};
 
 export default function LoginForm() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [error, setError] = useState('')
-    const router = useRouter()
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
+    // Función mock para simular el login
+    const mockLogin = async (email: string, pass: string) => {
+      return new Promise<{ token?: string; message?: string }>((resolve) => {
+        setTimeout(() => {
+          const users: MockUser[] = JSON.parse(localStorage.getItem('mockUsers') || '[]');
+          const user = users.find((u) => u.email === email && u.password === pass);
+          if (user) {
+            resolve({ token: 'mocked-token-123' });
+          } else {
+            resolve({ message: 'Credenciales incorrectas' });
+          }
+        }, 800); // Simula un retardo de red
+      });
+    };
 
     const handleLogin = async (e: React.FormEvent) => {
-      e.preventDefault()
-      setError('')
-  
-      try {
-        const res = await api.post('/login', { email, pass })
-  
-        // Suponiendo que el token viene en res.data.token
-        localStorage.setItem('token', res.data.token)
+      e.preventDefault();
+      setError('');
+      setLoading(true);
 
-  
-        router.push('/home')
-      } catch (error) {
-    if (error instanceof AxiosError) {
-        setError(error.response?.data?.message || 'Error al iniciar sesión');
-    } else {
+      try {
+        const res = await mockLogin(email, pass);
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+          router.push('/home');
+        } else {
+          setError(res.message || 'Error al iniciar sesión');
+        }
+      } catch {
         setError('Error al iniciar sesión');
-    }
-}
-    }
+      } finally {
+        setLoading(false);
+      }
+    };
 
     const togglePassword = () => {
         setShowPassword((prev) => !prev);
     };
 
-
     return (
+      <>
+        {loading && <Loader />}
         <div className="w-screen h-screen bg-bgMedium flex items-center justify-center">
         <div className="w-full max-w-sm bg-bgLigth rounded-xl p-6 shadow-lg">
           <h1 className="centerMediumSubTitle">Iniciar sesion</h1>
@@ -110,5 +130,6 @@ export default function LoginForm() {
           </form>
         </div>
       </div>
+      </>
     );
-} 
+}
